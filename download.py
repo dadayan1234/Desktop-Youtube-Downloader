@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
@@ -55,8 +54,11 @@ class YoutubeDownloaderApp:
 
     def update_progress(self, d):
         if d["status"] == "downloading":
-            percent = d["_percent_str"]
-            self.progress_bar["value"] = float(percent.strip("%"))
+            total_bytes = d.get('total_bytes')
+            downloaded_bytes = d.get('downloaded_bytes')
+            if total_bytes and downloaded_bytes:
+                percent_value = (downloaded_bytes / total_bytes) * 100
+                self.progress_bar["value"] = percent_value
 
     def choose_save_directory(self):
         save_directory = filedialog.askdirectory()
